@@ -75,7 +75,7 @@ define (require) ->
           url: "[dummy]"
 
     depthWalkCallback: (depth, node) =>
-      if not node.getAttribute?
+      if node and not node.getAttribute?
         return false
       id = node.getAttribute('id')
       if not id
@@ -83,7 +83,7 @@ define (require) ->
         id = node.getAttribute('id')
       while depth < (@holder.length - 1)
         @holder.shift()
-      if not node.getAttribute('data-xmlel') && node.localName == "br"
+      if node and not node.getAttribute('data-xmlel') && node.localName == "br"
         return false
       title = node.getAttribute('data-xmlel') || ("[" + node.localName + "]")
       if @makeNodeTitle
@@ -324,7 +324,7 @@ define (require) ->
       @ignoreNavigation = true
       treeInstance = @jsTree.jstree('get_instance')
       #treeInstance.close_all(-1, false)
-      if not node.getAttribute
+      if not node or not node.getAttribute
         return null
       if not treeInstance.open_node
         return null

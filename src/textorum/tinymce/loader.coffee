@@ -102,7 +102,7 @@ define (require) ->
     if not processor
       initProcessors(textorumPath, inlineElements, fixedElements)
 
-    editor.onBeforeSetContent.add (ed, o) ->
+    editor.on 'BeforeSetContent', (o) ->
       if o.format is "raw"
         return
       # console.log "beforesetcontent", o, [o.content]
@@ -110,7 +110,7 @@ define (require) ->
       # o.content = loadFromText(o.content)
       o.content = editor.plugins.textorum.applyFilters('after_loadFromText', o.content)
 
-    editor.onPostProcess.add (ed, o) ->
+    editor.on 'PostProcess', (o) ->
       # console.log "postprocess", o
       if o.set and not o.format is "raw"
         o.content = editor.plugins.textorum.applyFilters('before_loadFromText', o.content)

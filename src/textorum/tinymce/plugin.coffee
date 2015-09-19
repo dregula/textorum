@@ -110,9 +110,9 @@ define (require) ->
       @filters = {}
 
       textorumloader.bindHandler editor, url, @elementMap.inlineelements.join(','), @elementMap.fixedelements.join(',')
-      editor.onSetContent.add (ed, o) ->
+      editor.on 'SetContent', () ->
         that.tree.updateTreeCallback()
-      editor.onKeyUp.add (editor, evt) ->
+      editor.on 'KeyUp', (evt) ->
         if that.removePlaceholderTag
           that.removePlaceholderTag = false
           editor.$('[data-mce-bogus="1"]').each (idx, element) ->
@@ -130,13 +130,15 @@ define (require) ->
             $(editor.currentNode).contents().filter(->
               return this.nodeType == 3
             ).remove()
-      editor.onChange.add (editor, evt) ->
+      editor.on 'Change', () ->
         if editor.isDirty()
           that.tree.updateTreeCallback()
 
-      editor.onNodeChange.add (editor, controlManager, element, collapsed, extra) ->
+      editor.on 'NodeChange', (controlManager, element, collapsed, extra) ->
         that.removePlaceholderTag = true
         root = editor.dom.getRoot()
+        if not element
+          return
         while not element.hasAttribute('data-xmlel') and element isnt root and element.parentElement
           element = element.parentElement
 
@@ -147,16 +149,16 @@ define (require) ->
         for button in ['bold', 'italic', 'underline', 'sub', 'sup']
           controlManager.setDisabled(button, !(schemaElement?.contains?[button]?))
 
-      editor.onPreInit.add (editor) ->
+      editor.on 'PreInit', () ->
         editor.parser.addAttributeFilter 'data-textorum-nsurl', _nsurlAttributeFilterGenerator(editor)
         editor.serializer.addAttributeFilter 'id', that.tree.attributeFilterCallback
-      editor.onInit.add (editor) ->
+      editor.on 'Init', () ->
 
-      editor.on('ResolveName', (e) ->
+      editor.on 'ResolveName', (e) ->
         path_object = e.target
         if path_object.getAttribute?('data-xmlel')
           e.name = path_object.getAttribute('data-xmlel')
-      )
+
 
     getInfo: ->
       {

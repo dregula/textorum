@@ -9,7 +9,7 @@
   <script src="vendor/purl.js"></script>
   <script src="vendor/jquery.scrollintoview.js"></script>
   <!-- <script src="/sarissa-full-0.9.9.6/gr/abiss/js/sarissa/sarissa.js"></script> -->
-  <script src="/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
+  <script src="vendor/tinymce/js/tinymce/tinymce.min.js"></script>
   <script src="vendor/require.js"></script>
   <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/base/jquery-ui.css"/>
   <link rel="stylesheet" type="text/css" href="lib/editor.css"/>
@@ -77,7 +77,7 @@
       apply_source_formatting: false,
       valid_elements: "*[*]",
       setup: function(ed) {
-        ed.onInit.add(function(ed) {
+        ed.on('init', function (ed) {
           if ($('#datafile').val()) {
             $('#loaddata').click();
           }

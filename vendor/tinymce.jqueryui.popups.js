@@ -19,8 +19,8 @@
 		init : function(ed, url) {
 
 			// Replace window manager
-			ed.onBeforeRenderUI.add(function() {				
-				ed.windowManager = new tinymce.InlineWindowManager(ed);
+			ed.on('BeforeRenderUI', function (ed) {
+				ed.windowManager = new tinymce.InlineWindowManager();
 			});
 		},
 
@@ -37,10 +37,10 @@
 
 	// Create the window manager
 	tinymce.create('tinymce.InlineWindowManager:tinymce.WindowManager', {
-			
-		InlineWindowManager : function(ed) {
-			this.parent(ed);
-			this.windows = {};
+
+		InlineWindowManager: function () {
+			$(this).parent();
+			$(this).windows = {};
 		},
 
 		open : function(f, p) {
